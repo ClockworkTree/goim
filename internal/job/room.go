@@ -73,16 +73,22 @@ func (r *Room) pushproc(batch int, sigTime time.Duration) {
 	})
 	defer td.Stop()
 	for {
+		/* 如果p为空,则广播*/
 		if p = <-r.proto; p == nil {
 			break // exit
+			/* 如果p 不是room 就绪 */
 		} else if p != roomReadyProto {
 			// merge buffer ignore error, always nil
+			/*合并二进制 buffer*/
 			p.WriteTo(buf)
+
+			/* 如果是第一个被合并的包,reset 超时时间*/
 			if n++; n == 1 {
 				last = time.Now()
 				td.Reset(sigTime)
 				continue
 			} else if n < batch {
+				/* 如果未超过超时时间,则继续等待 */
 				if sigTime > time.Since(last) {
 					continue
 				}
@@ -92,6 +98,7 @@ func (r *Room) pushproc(batch int, sigTime time.Duration) {
 				break
 			}
 		}
+
 		_ = r.job.broadcastRoomRawBytes(r.id, buf.Buffer())
 		// TODO use reset buffer
 		// after push to room channel, renew a buffer, let old buffer gc

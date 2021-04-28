@@ -45,7 +45,9 @@ func Default() *Config {
 		Discovery: &naming.Config{Region: region, Zone: zone, Env: deployEnv, Host: host},
 		Comet:     &Comet{RoutineChan: 1024, RoutineSize: 32},
 		Room: &Room{
-			Batch:  20,
+			/*默认 batch 是20个包*/
+			Batch: 20,
+			/* 默认delay是一秒*/
 			Signal: xtime.Duration(time.Second),
 			Idle:   xtime.Duration(time.Minute * 15),
 		},
