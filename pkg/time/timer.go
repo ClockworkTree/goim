@@ -57,8 +57,12 @@ func (t *Timer) Init(num int) {
 	t.init(num)
 }
 
+/* 初始化默认起始大小的 小根堆*/
 func (t *Timer) init(num int) {
+	/* 新go/timer*/
 	t.signal = itime.NewTimer(infiniteDuration)
+
+	/* 初始化堆,数组作为堆,为num*/
 	t.timers = make([]*TimerData, 0, num)
 	t.num = num
 	t.grow()
@@ -73,6 +77,7 @@ func (t *Timer) grow() {
 	)
 	t.free = &(tds[0])
 	td = t.free
+	/* 初始化链表 */
 	for i = 1; i < t.num; i++ {
 		td.next = &(tds[i])
 		td = td.next

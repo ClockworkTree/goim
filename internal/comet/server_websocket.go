@@ -255,6 +255,7 @@ func (s *Server) ServeWebsocket(conn net.Conn, rp, wp *bytes.Pool, tr *xtime.Tim
 			p.Op = grpc.OpHeartbeatReply
 			p.Body = nil
 			// NOTE: send server heartbeat for a long time
+			/*是否同步给logic*/
 			if now := time.Now(); now.Sub(lastHB) > serverHeartbeat {
 				if err1 := s.Heartbeat(ctx, ch.Mid, ch.Key); err1 == nil {
 					lastHB = now

@@ -19,6 +19,7 @@ type RoundOptions struct {
 }
 
 // Round userd for connection round-robin get a reader/writer/timer for split big lock.
+/* 小根堆这里也做了分段锁 */
 type Round struct {
 	readers []bytes.Pool
 	writers []bytes.Pool
