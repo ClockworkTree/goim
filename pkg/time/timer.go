@@ -88,6 +88,7 @@ func (t *Timer) grow() {
 // get get a free timer data.
 func (t *Timer) get() (td *TimerData) {
 	if td = t.free; td == nil {
+		/* 如果为nil,说明走到了链表尾*/
 		t.grow()
 		td = t.free
 	}
